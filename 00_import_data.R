@@ -14,7 +14,7 @@ d_cal <- "./data/raw/samples_1-8_heavy-light_calibration.csv" %>%
     read_csv()
 
 # normalize column names
-col_names <- colnames(d_cal) %>% tolower()
+col_names <- colnames(d_cal)
 col_names <- gsub(" ", "_", col_names)
 
 colnames(d_cal) <- col_names
@@ -22,7 +22,7 @@ colnames(d_cal) <- col_names
 # extract normalized area
 d_cal <- d_cal %>%
     separate(
-        quantification, sep=": ", into=c("quant_label", "quant_value"),
+        Quantification, sep=": ", into=c("Quant_Label", "Quant_Value"),
         convert = TRUE
     )
 
@@ -35,7 +35,7 @@ d_trc <- "./data/raw/samples_1-8_heavy-light_traces.tsv" %>%
     nest(c(Times, Intensities))
 
 # normalize column names
-col_names <- colnames(d_trc) %>% tolower()
+col_names <- colnames(d_trc)
 col_names <- gsub(" ", "_", col_names)
 
 colnames(d_trc) <- col_names

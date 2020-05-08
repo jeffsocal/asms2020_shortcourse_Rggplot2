@@ -1,2 +1,6 @@
 asms2020_shortcourse_Rggplot2.Rproj
 .Rproj.user
+06_geom_histogrm-density.R
+07_geom_line-traces.R
+08_calibration_by-trace.R
+plots

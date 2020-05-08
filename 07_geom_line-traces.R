@@ -17,26 +17,26 @@ d_cal <- "./data/rds/samples_1-8_heavy-light_calibration.rds" %>% readRDS()
 # read in data
 d_trc <- "./data/rds/samples_1-8_heavy-light_traces.rds" %>% 
     read_rds() %>%
-    separate(filename, sep = "[\\.|\\_]", into=c('std','replicate','raw')) %>%
-    select(-c('std','raw')) %>%
-    # merge in calibration data
-    inner_join(d_cal, by='replicate')
+    separate(FileName, sep = "[\\.|\\_]", into=c('STD','Replicate','Raw')) %>%
+    select(-c('STD','Raw')) %>%
+    inner_join(d_cal, by='Replicate') %>%
+    mutate(Replicate = as.numeric(Replicate))
 
 d_trcs <- d_trc %>% unnest(mrm_trace)
 
 d_trcs %>% 
     filter(abs(times - 21) < 2) %>%
     ggplot(aes(times, intensities)) +
-    geom_line(aes(color=isotopelabeltype)) +
+    geom_line(aes(color=IsotopeLabelType)) +
     scale_color_brewer(palette="Set1") +
-    facet_wrap(fragmention~replicate, scales = 'free', ncol=8)
+    facet_grid(Replicate~FragmentIon, scales = 'free') +
+    ggtitle("IEAIPQIDK GST-tag", "Elution Traces") 
 
-d_frg <- "./data/raw/abs_quant_trans-list.csv" %>% 
-    read_csv(col_names = c('precursormz', 
-                           'productmz',
-                           'peptide_rt_expect',
-                           'peptide',
-                           'protein',
-                           'fragmention',
-                           'blank',
-                           'isotopelabeltype'))
+d_trcs %>% 
+    filter(abs(times - 21) < 2) %>%
+    mutate(frag_rep = paste('rep', Replicate, ' ', FragmentIon)) %>%
+    ggplot(aes(times, intensities)) +
+    geom_line(aes(color=IsotopeLabelType)) +
+    scale_color_brewer(palette="Set1") +
+    facet_wrap(~frag_rep, scales = 'free', ncol=5) +
+    ggtitle("IEAIPQIDK GST-tag", "Elution Traces") 
