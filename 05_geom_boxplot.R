@@ -26,7 +26,7 @@ p_box <- d_trc %>%
     mutate(IsotopeLabelType = fct_reorder(IsotopeLabelType, desc(IsotopeLabelType))) %>%
     ggplot(aes(FragmentIon, TotalArea)) + 
     geom_boxplot(aes(fill = IsotopeLabelType)) + 
-        scale_y_log10() +
+    scale_y_log10() +
     scale_fill_brewer(palette="Set1") +
     ggtitle("IEAIPQIDK GST-tag", "Replicate Comparison") 
 

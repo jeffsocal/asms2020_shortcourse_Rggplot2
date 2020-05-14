@@ -24,8 +24,11 @@ d_cal %>%
 # plot x axis is now a numeric
 d_cal %>%
     mutate(Replicate = as.numeric(Replicate)) %>%
-    ggplot(aes(Replicate, quant_value)) + 
-    geom_point()
+    ggplot(aes(Replicate, Quant_Value)) + 
+    geom_point() +
+    geom_line() +
+    geom_bar(stat='identity') +
+    coord_flip()
 
 # Challenge:
 ## 1 - move aes into geom_point
