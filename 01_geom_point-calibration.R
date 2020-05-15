@@ -25,10 +25,7 @@ d_cal %>%
 d_cal %>%
     mutate(Replicate = as.numeric(Replicate)) %>%
     ggplot(aes(Replicate, Quant_Value)) + 
-    geom_point() +
-    geom_line() +
-    geom_bar(stat='identity') +
-    coord_flip()
+    geom_point()
 
 # Challenge:
 ## 1 - move aes into geom_point
