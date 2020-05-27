@@ -3,7 +3,6 @@
 # 2020-04-21
 
 library(tidyverse)
-library(ggplot2)
 
 # clean out existing variable objects
 rm(list=ls())
@@ -57,7 +56,11 @@ trace_to_tibble <- function(d_list){
 
 # map the function 
 d_trc <- d_trc %>%
+    separate(FileName, sep = "[\\.|\\_]", into=c('STD','Replicate','Raw'), remove = F) %>%
+    select(-c('STD','Raw')) %>%
+    mutate(Replicate = as.numeric(Replicate)) %>%
     mutate(mrm_trace = map(data, trace_to_tibble)) %>%
     select(-data)
+
 
 saveRDS(d_trc, "./data/rds/samples_1-8_heavy-light_traces.rds")

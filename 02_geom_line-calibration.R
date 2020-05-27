@@ -22,14 +22,15 @@ d_cal %>%
     geom_point() +
     geom_line() 
 
-# add a linear smothed line
-# geom_smooth(method="lm", fill=NA)     
 
 # generate a linear model
 model_lm <- lm(d_cal$Quant_Value ~ d_cal$Ratio_To_Standard)
 
-# examine the model
+# extract modeling parameters
 model_lm_summary <- model_lm %>% summary()
+model_slope <- model_lm_summary$coefficients[2]
+model_intercept <- model_lm_summary$coefficients[1]
+model_fit_r2 <- model_lm_summary$r.squared
 
 # plot the data with the linear regression model
 p_cal <- d_cal %>%
@@ -38,19 +39,20 @@ p_cal <- d_cal %>%
     
     # draw the linear regression
     # geom_smooth(method="lm", fill=NA, color="black", size=1) +
-    geom_abline(slope = model_lm_summary$coefficients[2],
-                intercept = model_lm_summary$coefficients[1],
+    geom_abline(slope = model_slope,
+                intercept = model_intercept,
                 color='red') +
     
     # add a title
-    ggtitle("IEAIPQIDK GST-tag", "Calibration Curve") +
+    ggtitle("IEAIPQIDK GST-tag", 
+            "Calibration Curve") +
     
     # add regression stats
     annotate("label", x=-Inf, y=Inf,
              hjust=0, vjust=1,
-             label = paste0(
-                 "r.squared: ", signif(model_lm_summary$r.squared, 3), "\n",
-                 "adj.r.squared: ", signif(model_lm_summary$adj.r.squared, 3)) )
+             label = paste0("r.squared: ", 
+                            signif(model_fit_r2, 3)) )
+
 
 # save plot
 pdf(file = "./plots/02_calibration.pdf", pointsize = 8, width = 5, height = 4)

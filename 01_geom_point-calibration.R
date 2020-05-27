@@ -9,23 +9,35 @@ library(ggplot2)
 rm(list=ls())
 
 # set the theme to black-white (remove grey plot area)
+# https://ggplot2.tidyverse.org/reference/ggtheme.html
 theme_set(theme_bw())
 
 # read in data
 d_cal <- "./data/rds/samples_1-8_heavy-light_calibration.rds" %>% 
-    read_rds() %>%
-    filter(Replicate != "FOXN1-GST")
+    read_rds()
 
 # plot x axis is a character 
 d_cal %>% 
     ggplot(aes(Replicate, Quant_Value)) + 
     geom_point()
 
-# plot x axis is now a numeric
+
+
+
+
+
+
+
+
+# remove the measurement and color
 d_cal %>%
-    mutate(Replicate = as.numeric(Replicate)) %>%
+    filter(Replicate != "FOXN1-GST") %>% 
     ggplot(aes(Replicate, Quant_Value)) + 
-    geom_point()
+    geom_line(color="blue") +
+    geom_point(color='red', size=3, alpha=.75) +
+    ggtitle("calibration data", 
+            "points and lines")
+
 
 # Challenge:
 ## 1 - move aes into geom_point
@@ -37,11 +49,20 @@ d_cal %>%
 ## 7 - save the plot as a pdf, png (not save.image)
 ### .1 - by the IDE
 ### .2 - by code
+### .3 - create a save function
+
+
+
+
+
+
+
 
 
 
 # challenge example
 p_cal <- d_cal %>%
+    filter(Replicate != "FOXN1-GST") %>%
     mutate(Replicate = as.numeric(Replicate)) %>%
     ggplot(aes(Replicate, Quant_Value)) + 
     geom_line(color='blue') +
