@@ -46,7 +46,6 @@ p_box <- d_trc %>%
             "Replicate Comparison") 
 
 
-# save plots
-pdf(file = "./plots/05_geom_boxplot.pdf", pointsize = 8, width = 5, height = 4)
-plot(p_box)
-dev.off()
+# save plot
+ggsave("./plots/05_geom_boxplot.pdf", p_trc, 
+       width = 10, height = 4)

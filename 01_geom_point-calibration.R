@@ -17,9 +17,13 @@ d_cal <- "./data/rds/samples_1-8_heavy-light_calibration.rds" %>%
     read_rds()
 
 # plot x axis is a character 
-d_cal %>% 
+p_cal <- d_cal %>% 
+    filter(Replicate != "FOXN1-GST") %>% 
+    mutate(Replicate = as.numeric(Replicate)) %>%
     ggplot(aes(Replicate, Quant_Value)) + 
-    geom_point()
+    geom_line(color='blue') +
+    geom_point(color='red', size=5, alpha=.8) +
+    ggtitle("Calibration Data", "points and lines")
 
 
 
@@ -32,6 +36,7 @@ d_cal %>%
 # remove the measurement and color
 d_cal %>%
     filter(Replicate != "FOXN1-GST") %>% 
+    mutate(Replicate = as.numeric(Replicate)) %>%
     ggplot(aes(Replicate, Quant_Value)) + 
     geom_line(color="blue") +
     geom_point(color='red', size=3, alpha=.75) +
@@ -69,7 +74,3 @@ p_cal <- d_cal %>%
     geom_point(alpha=.8, color='red', size=2) +
     ggtitle("samples 1-8 heavy/light calibration data")
 
-# save plot
-pdf(file = "./plots/01_points-lines.pdf", pointsize = 8, width = 5, height = 4)
-plot(p_cal)
-dev.off()

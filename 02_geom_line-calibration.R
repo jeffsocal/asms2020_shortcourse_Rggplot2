@@ -53,8 +53,4 @@ p_cal <- d_cal %>%
              label = paste0("r.squared: ", 
                             signif(model_fit_r2, 3)) )
 
-
-# save plot
-pdf(file = "./plots/02_calibration.pdf", pointsize = 8, width = 5, height = 4)
 plot(p_cal)
-dev.off()

@@ -61,6 +61,5 @@ p_trc <-
 
 
 # save plot
-pdf(file = "./plots/03_response-curves.pdf", pointsize = 8, width = 10, height = 4)
-plot(p_trc)
-dev.off()
+ggsave("./plots/03_response-curves.pdf", p_trc, 
+       width = 10, height = 4)

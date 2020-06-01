@@ -49,7 +49,6 @@ p_trc <- d_trc %>%
             "Peak Areas - Replicate Comparison")
 
 
-# save plots
-pdf(file = "./plots/04_replicate-comparison.pdf", pointsize = 8, width = 5, height = 4)
-plot(p_trc)
-dev.off()
+# save plot
+ggsave("./plots/04_replicate-comparison.pdf", p_trc, 
+       width = 5, height = 4)
