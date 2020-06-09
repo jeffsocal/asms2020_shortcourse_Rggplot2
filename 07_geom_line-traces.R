@@ -16,27 +16,23 @@ d_cal <- "./data/rds/samples_1-8_heavy-light_calibration.rds" %>% readRDS()
 
 # read in data
 d_trc <- "./data/rds/samples_1-8_heavy-light_traces.rds" %>% 
-    read_rds() %>%
-    separate(FileName, sep = "[\\.|\\_]", into=c('STD','Replicate','Raw')) %>%
-    select(-c('STD','Raw')) %>%
-    inner_join(d_cal, by='Replicate') %>%
-    mutate(Replicate = as.numeric(Replicate))
+    read_rds()
 
+# unnest the MRM trace data
 d_trcs <- d_trc %>% unnest(mrm_trace)
 
-d_trcs %>% 
-    filter(abs(times - 21) < 2) %>%
-    ggplot(aes(times, intensities)) +
-    geom_line(aes(color=IsotopeLabelType)) +
-    scale_color_brewer(palette="Set1") +
-    facet_grid(Replicate~FragmentIon, scales = 'free') +
-    ggtitle("IEAIPQIDK GST-tag", "Elution Traces") 
 
-d_trcs %>% 
-    filter(abs(times - 21) < 2) %>%
-    mutate(frag_rep = paste('rep', Replicate, ' ', FragmentIon)) %>%
-    ggplot(aes(times, intensities)) +
-    geom_line(aes(color=IsotopeLabelType)) +
-    scale_color_brewer(palette="Set1") +
-    facet_wrap(~frag_rep, scales = 'free', ncol=5) +
-    ggtitle("IEAIPQIDK GST-tag", "Elution Traces") 
+# Objectives
+# - create a plot of all traces .. intensities ~ times 
+# - mutate data to filter x-var data to 21 +/- 2 min
+# - color by IsotopeLabelType
+# - modify the color palette
+# - facet Replicates horizontal & FragmentIon verticle
+# - modify facets such that rows have an independent y axis
+# - add a title
+# - store plot as a variable
+# - save the plot
+
+# Challenge
+# - create a faceted plot where each trace has an independant y axis
+# -- hint, use dplyr to create a new character varaiable

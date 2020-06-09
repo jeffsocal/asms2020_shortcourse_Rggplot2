@@ -48,8 +48,6 @@ model_trc <- function(data){
 library(broom)
 
 d_trc_cal_mdl <- d_trc_cal %>%
-    mutate(Quant_Value = log10(Quant_Value),
-           Ratio_To_Standard = log10(Ratio_To_Standard)) %>%
     group_by(FragmentIon) %>%
     nest(-FragmentIon) %>%
     mutate(model_lm = map(data, model_trc)
@@ -67,14 +65,15 @@ d_trc_cal %>%
             intercept = intercept),
         color='red') +
     # add a title
-    ggtitle("IEAIPQIDK GST-tag", "Calibration Curve -- log-log plot") +
-    scale_x_log10() + scale_y_log10() +
+    ggtitle("IEAIPQIDK GST-tag", "Calibration Curve") +
+    
     # add regression stats
     geom_text(data = d_trc_cal_mdl, 
               x=-Inf, y=Inf,
               hjust=-0.1, vjust=1.1,
               aes(label = paste0(
-                  "R^2: ", signif(r.squared, 3)) ) 
-    ) +
+                  "R^2: ", signif(r.squared, 3), "\n",
+                  "R^2 adj: ", signif(adj.r.squared, 3)) ) 
+                  ) +
     
     facet_wrap(~FragmentIon, nrow=3) 

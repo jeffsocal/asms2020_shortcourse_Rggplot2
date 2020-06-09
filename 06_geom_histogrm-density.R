@@ -15,32 +15,24 @@ d_cal <- "./data/rds/samples_1-8_heavy-light_calibration.rds" %>% readRDS()
 
 # read in data
 d_trc <- "./data/rds/samples_1-8_heavy-light_traces.rds" %>% 
-    read_rds() %>%
-    separate(FileName, sep = "[\\.|\\_]", into=c('STD','Replicate','Raw')) %>%
-    select(-c('STD','Raw')) %>%
-    inner_join(d_cal, by='Replicate') %>%
-    mutate(Replicate = as.numeric(Replicate))
+    read_rds() 
 
 
-p_hist <- d_trc %>%
-    ggplot(aes(TotalArea)) +
-    geom_histogram(binwidth = .2) +
-    scale_x_log10() +
-    scale_fill_brewer(palette="Set1") +
-    ggtitle("IEAIPQIDK GST-tag", "Distribution of TotalArea")
-
-p_dens <- d_trc %>%
-    ggplot(aes(TotalArea, fill=FragmentIon)) +
-    geom_density(alpha=.5) +
-    scale_x_log10() +
-    facet_wrap(~IsotopeLabelType, scales='free_y') +
-    scale_fill_brewer(palette="Set1") +
-    ggtitle("IEAIPQIDK GST-tag", "Response Curves per Transition")
+# Objectives
+# - create a histogram plot .. TotalArea 
+# - adjust the binwidth to a suitable value
+# - fill by IsotopeLabelType
+# - add a title
+# - store plot as a variable
+# - save the plot
 
 
-# save plots
-ggsave("./plots/06_geom_histogram.pdf", p_hist, 
-       width = 5, height = 4)
-
-ggsave("./plots/06_geom_denisty.pdf", p_dens, 
-       width = 10, height = 4)
+# Objectives
+# - create a density estimation plot .. TotalArea 
+# - fill by FragmentIon
+# - facet by IsotopeLabelType
+# - modify facets such that each has an independent x,y axis
+# - alpha blend densities to show overlap
+# - add a title
+# - store plot as a variable
+# - save the plot

@@ -16,61 +16,15 @@ theme_set(theme_bw())
 d_cal <- "./data/rds/samples_1-8_heavy-light_calibration.rds" %>% 
     read_rds()
 
-# plot x axis is a character 
-p_cal <- d_cal %>% 
-    filter(Replicate != "FOXN1-GST") %>% 
-    mutate(Replicate = as.numeric(Replicate)) %>%
-    ggplot(aes(Replicate, Quant_Value)) + 
-    geom_line(color='blue') +
-    geom_point(color='red', size=5, alpha=.8) +
-    ggtitle("Calibration Data", "points and lines")
 
+# Objectives
+# plot Quant_Value ~ Replicate
+# - red points
+# - blue lines
+# - increase point size, layer on top, make transparent
 
-
-
-
-
-
-
-
-# remove the measurement and color
-d_cal %>%
-    filter(Replicate != "FOXN1-GST") %>% 
-    mutate(Replicate = as.numeric(Replicate)) %>%
-    ggplot(aes(Replicate, Quant_Value)) + 
-    geom_line(color="blue") +
-    geom_point(color='red', size=3, alpha=.75) +
-    ggtitle("calibration data", 
-            "points and lines")
-
-
-# Challenge:
-## 1 - move aes into geom_point
-## 2 - add geom_line
-## 3 - color line blue, points red
-## 4 - layer points on top of line
-## 5 - set the point alpha 
-## 6 - add a title with ggtitle
-## 7 - save the plot as a pdf, png (not save.image)
-### .1 - by the IDE
-### .2 - by code
-### .3 - create a save function
-
-
-
-
-
-
-
-
-
-
-# challenge example
-p_cal <- d_cal %>%
-    filter(Replicate != "FOXN1-GST") %>%
-    mutate(Replicate = as.numeric(Replicate)) %>%
-    ggplot(aes(Replicate, Quant_Value)) + 
-    geom_line(color='blue') +
-    geom_point(alpha=.8, color='red', size=2) +
-    ggtitle("samples 1-8 heavy/light calibration data")
-
+# Challenge
+# - add a title (use cheatsheet, or web)
+# - store plot as a variable
+# - generate the plot from the variable
+# - save the plot

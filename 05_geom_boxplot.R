@@ -15,37 +15,18 @@ theme_set(theme_bw())
 d_trc <- "./data/rds/samples_1-8_heavy-light_traces.rds" %>% 
     read_rds() 
 
-d_trc %>%
-    # reorder the isotope-label, same as before
-    mutate(IsotopeLabelType = fct_reorder(IsotopeLabelType, desc(IsotopeLabelType))) %>%
-    ggplot(aes(FragmentIon, TotalArea)) + 
-    geom_boxplot(aes(fill=IsotopeLabelType), 
-                 alpha=.7) +
-    scale_y_log10() +
-    scale_fill_brewer(palette = "Set1") +
-    ggtitle("IEAIPQIDK GST-tag", 
-            "Replicate Comparison")
 
+# Objectives
+# - create a box-plot .. TotalArea ~ FragmentIon 
+# - color by IsotopeLabelType
+# - dplyr mutate IsotopeLabelType fct_reorder::desc
+# - modify the color palette
+# - modify the y-axis to log10 scale  (two ways to do this)
+# - add a title
+# - store plot as a variable
+# - save the plot
 
+# Challenge
+# - facet each FragmentIon
+# - modify facets such that each has an independent x,y axis
 
-
-
-
-
-
-
-
-
-p_box <- d_trc %>%
-    mutate(IsotopeLabelType = fct_reorder(IsotopeLabelType, desc(IsotopeLabelType))) %>%
-    ggplot(aes(FragmentIon, TotalArea)) + 
-    geom_boxplot(aes(fill = IsotopeLabelType)) + 
-    scale_y_log10() +
-    scale_fill_brewer(palette="Set1") +
-    ggtitle("IEAIPQIDK GST-tag", 
-            "Replicate Comparison") 
-
-
-# save plot
-ggsave("./plots/05_geom_boxplot.pdf", p_trc, 
-       width = 10, height = 4)

@@ -16,13 +16,6 @@ d_cal <- "./data/rds/samples_1-8_heavy-light_calibration.rds" %>%
     read_rds() %>%
     filter(Replicate != "FOXN1-GST")
 
-# plot the Quant_Value ~ ratio_to_std
-d_cal %>%
-    ggplot(aes(Ratio_To_Standard, Quant_Value)) + 
-    geom_point() +
-    geom_line() 
-
-
 # generate a linear model
 model_lm <- lm(d_cal$Quant_Value ~ d_cal$Ratio_To_Standard)
 
@@ -32,25 +25,13 @@ model_slope <- model_lm_summary$coefficients[2]
 model_intercept <- model_lm_summary$coefficients[1]
 model_fit_r2 <- model_lm_summary$r.squared
 
-# plot the data with the linear regression model
-p_cal <- d_cal %>%
-    ggplot(aes(Ratio_To_Standard, Quant_Value)) + 
-    geom_point(size=3) +
-    
-    # draw the linear regression
-    # geom_smooth(method="lm", fill=NA, color="black", size=1) +
-    geom_abline(slope = model_slope,
-                intercept = model_intercept,
-                color='red') +
-    
-    # add a title
-    ggtitle("IEAIPQIDK GST-tag", 
-            "Calibration Curve") +
-    
-    # add regression stats
-    annotate("label", x=-Inf, y=Inf,
-             hjust=0, vjust=1,
-             label = paste0("r.squared: ", 
-                            signif(model_fit_r2, 3)) )
+# Objectives
+# plot  Quant_Value ~ Ratio_To_Standard 
+# - points
+# - add a regression line (use cheatsheet)
+# - add an annotation (use cheatsheet)
 
-plot(p_cal)
+# Challenge
+# - add a title (use cheatsheet, or web)
+# - store plot as a variable
+# - save the plot
